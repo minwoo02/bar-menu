@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Menu Board</title>
+    <style>
+        :root {
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --primary: #e67e22;
+            --text-main: #ffffff;
+            --text-sub: #aaaaaa;
+            --tag-bg: #333333;
+        }
+        body {
+            font-family: 'Pretendard', -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0; padding: 20px;
+        }
+        .header {
+            text-align: center; margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 2.5rem; color: var(--primary); margin: 0 0 10px 0;
+            letter-spacing: 2px;
+        }
+        .header p { color: var(--text-sub); font-size: 1.1rem; margin-bottom: 5px; }
+        .disclaimer { color: #e74c3c; font-size: 0.9rem; font-weight: bold; }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #2a2a2a;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(230, 126, 34, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .card-img {
+            width: 100%; height: 200px; object-fit: cover;
+            border-bottom: 2px solid #2a2a2a;
+            background-color: #000;
+        }
+        
+        .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .drink-title { font-size: 1.4rem; font-weight: bold; margin: 0 0 10px 0; }
+        .drink-desc { font-size: 0.95rem; color: var(--text-sub); line-height: 1.5; margin-bottom: 15px; flex-grow: 1; }
+        
+        .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .tag {
+            background-color: var(--tag-bg); color: #ddd;
+            padding: 4px 10px; border-radius: 12px; font-size: 0.8rem;
+        }
+        .tag.base { background-color: var(--primary); color: #000; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🍸 M.W. 2002 Bar Menu</h1>
+        <p>원하는 스타일을 골라주시면 민우가 맛있게 말아드립니다.</p>
+        <p class="disclaimer">※ 메뉴판의 사진은 연출된 이미지로 실제와 다를 수 있습니다.</p>
+    </div>
+
+    <div class="menu-grid" id="menuGrid">
+    </div>
+
+    <script>
+        const menuItems = [
+            // 위스키
+            {
+                name: "산토리 하이볼", base: "위스키", img: "https://the-edit.co.kr/wp-content/uploads/2019/04/bcut_DSC04922.jpg",
+                desc: "단맛은 빼고 청량감은 더한 일본 이자카야의 근본. 위스키 본연의 향을 깔끔하게 즐기고 싶은 분께 추천합니다.",
+                tags: ["단맛❌", "초깔끔", "탄산폭발"]
+            },
+            {
+                name: "짐빔 하이볼", base: "위스키", img: "https://mblogthumb-phinf.pstatic.net/MjAyMzA5MjhfMjgz/MDAxNjk1ODk2ODkwOTk2.sNsDQzcqZZ0z26g1e4pIXG9cxGvPGOgk2n9TixRwK4sg.BRDuANsUd4pd2sn3_HuW-rHg95ITAz2r1FI7Qrz8MWYg.JPEG.bongs1021/SE-cab17394-4d45-44d6-b242-e9f5367fd52e.jpg?type=w800",
+                desc: "버번 위스키 특유의 바닐라와 오크통 향이 은은하게 퍼지는, 호불호 없는 가장 대중적인 하이볼입니다.",
+                tags: ["대중적", "달콤쌉쌀", "입문자용"]
+            },
+            {
+                name: "빔콕", base: "위스키", img: "https://mblogthumb-phinf.pstatic.net/MjAxNzAyMDJfMTQw/MDAxNDg1OTY2MzA4MzMz.3ZJg5ZS3wLaaUehnNmIg5sm0-OpChmYLJ0hGif-OSvUg.pgBXAe87u8c5mFbU44gREQS6GzWXnmBdf8TKY_H64SYg.JPEG.gowjr21/20170202_012431.jpg?type=w800",
+                desc: "위스키의 깊은 풍미와 제로 콜라의 달달함이 만났습니다. 실패 확률 0%의 마법 같은 조합!",
+                tags: ["달달함", "음료수느낌", "콜라러버"]
+            },
+            {
+                name: "위스키 사워", base: "위스키", img: "https://i.namu.wiki/i/iCyPA81pSDRq7eXGblutnOvWkR7rT5RwgRrwsdYlVo5kYN_ZdBepsaHHoqcGxDgavXvamsf7dIMur6cyVlnlyg.webp",
+                desc: "위스키에 레몬의 상큼함과 시럽을 더해 차갑게 흔들어 냈습니다. 부드러운 거품과 새콤달콤함이 일품인 정석 칵테일.",
+                tags: ["새콤달콤", "부드러움", "도수있음"]
+            },
+            {
+                name: "켄터키 뮬", base: "위스키", img: "https://abeautifulmess.com/wp-content/uploads/2023/02/kentucky-mule.jpg",
+                desc: "진저에일의 알싸함과 라임의 상큼함이 위스키와 만났습니다. 기름진 안주를 먹을 때 찰떡궁합인 청량보스.",
+                tags: ["알싸함", "상큼함", "청량감"]
+            },
+
+            // 진
+            {
+                name: "진 토닉 / 진 릭키", base: "진", img: "https://i.namu.wiki/i/5BlspmcH0qTkfd3W7PfqloEWrnOPEk6N-LxV4_uTANF5h2_Hix_cifyxFzWBm0G7f9QjnBx7EgHt161Ok965Uw.webp",
+                desc: "솔잎을 머금은 듯한 향긋함! 입안이 텁텁할 때 이보다 더 깔끔할 수 없는 청량함의 대명사입니다.",
+                tags: ["허브향", "깔끔함", "리프레쉬"]
+            },
+            {
+                name: "봄베이 하이볼", base: "진", img: "https://mblogthumb-phinf.pstatic.net/MjAyNDA4MDVfMTEx/MDAxNzIyODY2NzM0MzQz.DHcagVd8fy6jD67WOBWeZBpm3VYdG38J_PN7lHeL-3Ag.rAZga6uAuVJRsNANzDOUTLaKeHew2Tyz-1Kwltl76wAg.JPEG/KakaoTalk_Photo_2024-08-05-23-05-22_004.jpeg?type=w800",
+                desc: "푸른빛의 화려한 꽃내음과 상큼한 라임이 어우러져 기분까지 산뜻해지는 하이볼입니다.",
+                tags: ["화려한향", "상큼함", "여성인기"]
+            },
+
+            // 럼
+            {
+                name: "심플 모히또", base: "럼", img: "https://mblogthumb-phinf.pstatic.net/MjAxODA4MjJfMTQz/MDAxNTM0OTA0MjYxNDM0.exIowG0OHsfbOr5eDoTYXrZBS6kC1h1g-m5dXVWBhZ4g.YSOS0gSzYXi-8chwfpfoSAYxIkBnKIBg23P0pX2CTogg.JPEG.aqua2099/1534904256514.jpg?type=w800",
+                desc: "라임의 새콤함과 럼의 깔끔함이 만난 쿠바의 열정! 머리가 복잡할 때 마시면 텐션이 바로 올라갑니다.",
+                tags: ["여름맛", "새콤달콤", "에너지업"]
+            },
+            {
+                name: "쿠바 리브레", base: "럼", img: "https://www.lampcook.com/wi_files/food_story/cocktailmake_story/story4_7_2.jpg",
+                desc: "콜라의 달콤함에 라임의 상큼함을 톡 떨어뜨렸습니다. 스트레스 받는 날 당 충전과 알콜 충전을 동시에!",
+                tags: ["콜라베이스", "달달상큼", "스트레스해소"]
+            },
+            {
+                name: "시트러스 럼 쿨러", base: "럼", img: "https://mblogthumb-phinf.pstatic.net/MjAxODA2MjdfMTcy/MDAxNTMwMDcxMDc1NDkw.DdaLSMSXmCq1VMxIwF8FJYpTZOGTLb31fjWCgS8hMGUg._oaiupXo4gvDsqolAsvhUz6JFK_gO3wx1ckZOiz6aA4g.JPEG.aqua2099/1530071072493.jpg?type=w800",
+                desc: "오렌지, 레몬, 라임이 모두 들어간 과일 파티! 술맛을 싫어해도 과일 주스처럼 맛있게 마실 수 있습니다.",
+                tags: ["과일듬뿍", "주스느낌", "파티용"]
+            },
+
+            // 보드카
+            {
+                name: "스크류드라이버", base: "보드카", img: "https://i.namu.wiki/i/tiVAeENh-DXFmPQvyRO718Uswb9yttrCli1wryABu4QLS3F1MCs2915CQe0mogTInHTSB8nd6jhunYuHI5xZyg.webp",
+                desc: "보드카와 오렌지 주스의 완벽한 비율. 너무 달달하고 맛있어서 홀짝이다 보면 어느새 취해버리는 전설의 작업주.",
+                tags: ["오렌지주스맛", "달달함", "작업주"]
+            },
+            {
+                name: "보드카 토닉", base: "보드카", img: "https://gomean.co.kr/wp-content/uploads/2023/09/gm-vodka-tonic-main.jpg",
+                desc: "단당류 제로! 무색무취의 깔끔한 보드카에 탄산만 더해, 열심히 땀 흘린 후에도 죄책감 없이 즐기는 다이어터용 한 잔.",
+                tags: ["다이어트", "무가당", "단맛❌"]
+            },
+            {
+                name: "보드카 아이스티", base: "보드카", img: "https://i.namu.wiki/i/-WUAYzooxGIBDiGe0RHjJsxVCZV12zYTQ6JiViPG2Oowi3Oa6AhCYZnRW3CY757zIoJc65WiR64HtqE4tdSZWg.webp",
+                desc: "달콤한 복숭아 아이스티에 보드카를 몰래 숨겼습니다. 꿀떡꿀떡 넘어가서 갈증 해소에 최고입니다.",
+                tags: ["아이스티맛", "달달함", "벌컥벌컥"]
+            },
+            {
+                name: "레몬 드롭", base: "보드카", img: "https://i.namu.wiki/i/oMcl_DqyKC9wYNhuwHVMQ7um0j4-YcbcDQc9mHaryo6aI0y08uUkha_LzKBHdfYn_37ooSG9ZvRdC2kJxSbDKg.webp",
+                desc: "입안 가득 터지는 레몬의 상큼함! 새콤달콤하게 차갑게 흔들어 한 입에 털어 넣는 강렬한 칵테일입니다.",
+                tags: ["상큼폭발", "단숨에", "도수높음"]
+            },
+
+            // 깔루아
+            {
+                name: "깔루아 밀크", base: "깔루아", img: "https://masileng-bucket.s3.ap-northeast-2.amazonaws.com/TB_COCK_MASTER/7a400032-6ca8-4b83-a35c-e16ccbe917501b084acdc75744f121af76607.jpg",
+                desc: "부드럽고 달콤한 커피 우유 그 자체. 식사 후나 자기 전 달달하게 기분 내기 좋은 최고의 디저트 술입니다.",
+                tags: ["커피우유", "달달함", "디저트"]
+            },
+            {
+                name: "블랙 러시안", base: "깔루아", img: "https://www.lampcook.com/wi_files/food_story/cocktailmake_story/story2_3_2.jpg",
+                desc: "커피 사탕의 어른용 버전. 진한 달콤함 뒤에 숨겨진 높은 도수가 매력적인 상남자들의 칵테일입니다.",
+                tags: ["커피향", "묵직함", "도수매우높음"]
+            }
+        ];
+
+        const grid = document.getElementById('menuGrid');
+
+        menuItems.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            
+            let tagsHtml = `<span class="tag base">${item.base} 베이스</span>`;
+            item.tags.forEach(t => {
+                tagsHtml += `<span class="tag">${t}</span>`;
+            });
+
+            card.innerHTML = `
+                <img src="${item.img}" alt="${item.name}" class="card-img" onerror="this.src='https://placehold.co/600x400/252525/e67e22?font=montserrat&text=Image+Not+Found'">
+                <div class="card-content">
+                    <h2 class="drink-title">${item.name}</h2>
+                    <p class="drink-desc">${item.desc}</p>
+                    <div class="tags">
+                        ${tagsHtml}
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    </script>
+</body>
+</html>
