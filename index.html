@@ -29,6 +29,58 @@
         .header p { color: var(--text-sub); font-size: 1.1rem; margin-bottom: 5px; }
         .disclaimer { color: #e74c3c; font-size: 0.9rem; font-weight: bold; }
         
+        /* 페어링 섹션 스타일 추가 */
+        .pairing-section {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px 30px;
+            margin: 0 auto 40px auto;
+            max-width: 1140px;
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .pairing-section h2 {
+            color: var(--text-main);
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 15px;
+        }
+        .pairing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        .pairing-card {
+            background-color: #252525;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        .pairing-card h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .pairing-card ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .pairing-card li {
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        .pairing-card li:last-child {
+            margin-bottom: 0;
+        }
+        .pairing-card li strong {
+            color: #ddd;
+        }
+        
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -78,6 +130,37 @@
         <p>원하는 스타일을 골라주시면 민우가 맛있게 말아드립니다.</p>
         <p class="disclaimer">※ 메뉴판의 사진은 연출된 이미지로 실제와 다를 수 있습니다.</p>
     </div>
+
+    <!-- 페어링 요약 및 꿀팁 섹션 시작 -->
+    <div class="pairing-section">
+        <h2>🍽️ 안주별 찰떡궁합 페어링 요약</h2>
+        <div class="pairing-grid">
+            <div class="pairing-card">
+                <h3>🥩 1. 묵직한 육류 (기름기 & 육향 타파)</h3>
+                <ul>
+                    <li><strong>삼겹살 ➕ 짐빔 하이볼 (or 보드카 토닉):</strong> 강한 탄산으로 기름기 싹!</li>
+                    <li><strong>소고기 ➕ 위스키 사워 (or 블랙 러시안):</strong> 적포도주처럼 고기 감칠맛 극대화.</li>
+                    <li><strong>숄더랙 ➕ 모히또 (or 봄베이 하이볼):</strong> 허브향으로 양고기/돼지고기 잡내 완벽 제거 (민트 젤리 역할).</li>
+                </ul>
+            </div>
+            <div class="pairing-card">
+                <h3>🐟 2. 해산물 (비린내 잡고 감칠맛 업)</h3>
+                <ul>
+                    <li><strong>장어 ➕ 진 토닉 / 진 릭키:</strong> 솔잎 향이 느끼함을 깔끔하게 커버.</li>
+                    <li><strong>조개 ➕ 레몬 드롭:</strong> 조개에 레몬즙을 곁들여 먹는 듯한 상큼한 조화.</li>
+                    <li><strong>고등어 ➕ 산토리 하이볼:</strong> 단맛 0%의 탄산으로 등푸른생선의 비릿함과 기름기 세척.</li>
+                </ul>
+            </div>
+            <div class="pairing-card">
+                <h3>🍗 3. 양념 가금류 (매콤/달달함 중화 및 시너지)</h3>
+                <ul>
+                    <li><strong>닭도리탕 ➕ 켄터키 뮬 (or 보드카 아이스티):</strong> 알싸한 진저에일로 매운맛과 밸런스, 혹은 아이스티로 매운맛 진화.</li>
+                    <li><strong>닭꼬치 ➕ 빔콕 (or 쿠바 리브레):</strong> 콜라의 달콤함이 데리야끼나 매콤한 양념과 미친 맵단짠 조합 생성.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- 페어링 요약 및 꿀팁 섹션 끝 -->
 
     <div class="menu-grid" id="menuGrid">
     </div>
